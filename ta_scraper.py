@@ -104,10 +104,16 @@ for link in links_full:
     bubblereview_string = str(bubblereview)
     bubblereview_string = bubblereview_string[25:]
     bubblereview_string = bubblereview_string[:-97]
-    print(bubblereview_string)
     if bubblereview_string == "":
-        print('noneeee')
-    average_ratings.append(bubblereview_string)
+        #https://www.tripadvisor.co.uk/Attraction_Review-g186338-d17712763-Reviews-Wimbledon_Centre_Court-London_England.html
+        for div in data.find_all(class_="attractions-attraction-review-header-attraction-review-header__ratingContainer--1lMqm"):
+            rating = div.find(class_= re.compile('ui_bubble_rating bubble_\d*'))
+            rating_string = str(rating)
+            rating_string = rating_string[25:]
+            rating_string = rating_string[:-97]
+            average_ratings.append(rating_string)
+    else:
+        average_ratings.append(bubblereview_string)
 
 # 1084 names, 1084 links, 1053 number of ratings (last 31 in dataset dont have ranking/reviews -> default to 0)
 for i in range(31):
