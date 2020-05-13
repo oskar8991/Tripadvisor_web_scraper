@@ -12,6 +12,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 import time
 from _datetime import datetime
 from selenium.webdriver.common.keys import Keys
+from pandas import DataFrame
 
 options = webdriver.ChromeOptions()
 options.headless = False
@@ -69,6 +70,7 @@ for i in range(30, 1140, 30):
         name_read_cont = soup.select("._1QKQOve4")
         num_review_read_cont = soup.select("._82HNRypW")
 
+
         for i in range(len(name_read_cont)):
             x = name_read_cont[i].text
             names.append(x)
@@ -78,6 +80,7 @@ for i in range(30, 1140, 30):
             x = x[:-8]
             y = x.replace(',', '')
             num_reviews.append(y)
+
 
         opener2 = urllib.request.build_opener()
         opener2.addheaders = [('User-agent', 'Mozilla/5.0')]
@@ -90,7 +93,24 @@ for i in range(30, 1140, 30):
 
         break
 
-# 1084 names, 1084 links, 1053 number of ratings (last 31 in dataset dont have ranking/reviews -> default to 0 later)
-#print("names: " + str(len(names)))
-#print("number of reviews: " + str(len(num_reviews)))
-#print(len(links_full))
+
+average_ratings = []
+for link in links_full:
+    response = requests.get(link)
+    response = response.text
+    data = bs4.BeautifulSoup(response, 'lxml')
+    bubblereview = data.select("._2Hy7Xxdm")
+    #[<span class="_2Hy7Xxdm">4.5<!-- --> <span class="_1jcHBWVU _1RZqMyqR uq1qMUbD" style="vertical-align:bottom"></span></span>]
+    bubblereview_string = str(bubblereview)
+    bubblereview_string = bubblereview_string[25:]
+    bubblereview_string = bubblereview_string[:-97]
+    average_ratings.append(bubblereview_string)
+    print(bubblereview_string)
+
+
+# 1084 names, 1084 links, 1053 number of ratings (last 31 in dataset dont have ranking/reviews -> default to 0)
+for i in range(31):
+    num_reviews.append(0)
+
+#df = DataFrame({'Name': names, 'Average Rating': average_ratings, 'Number of Reviews': num_reviews})
+#df.to_excel('test.xlsx', sheet_name='sheet1', index=False)
