@@ -112,5 +112,5 @@ for link in links_full:
 for i in range(31):
     num_reviews.append(0)
 
-#df = DataFrame({'Name': names, 'Average Rating': average_ratings, 'Number of Reviews': num_reviews})
-#df.to_excel('test.xlsx', sheet_name='sheet1', index=False)
+df = DataFrame({'Name': names, 'Average Rating': average_ratings, 'Number of Reviews': num_reviews})
+df.to_excel('test.xlsx', sheet_name='sheet1', index=False)
