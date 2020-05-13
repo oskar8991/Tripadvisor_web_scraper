@@ -104,8 +104,10 @@ for link in links_full:
     bubblereview_string = str(bubblereview)
     bubblereview_string = bubblereview_string[25:]
     bubblereview_string = bubblereview_string[:-97]
+    print(bubblereview_string)
+    if bubblereview_string == "":
+        print('noneeee')
     average_ratings.append(bubblereview_string)
-
 
 # 1084 names, 1084 links, 1053 number of ratings (last 31 in dataset dont have ranking/reviews -> default to 0)
 for i in range(31):
