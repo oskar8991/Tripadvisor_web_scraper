@@ -60,8 +60,10 @@ for i in range(len(links_extensions)):
 #https://www.tripadvisor.co.uk/Attractions-g186338-Activities-c47-t2,3,5,6,7,10,12,13,15,17,19,23,24,25,26,34,39,51,76,91,120,163,175-oa30-London_England.html
 
 for i in range(30, 1140, 30):
-    while i <= 1080:
+    #TEMP (i<=1100) should be picked (set to 60 for quicker testing)
+    while i <= 60:
         i = str(i)
+        print("status1: " + i)
         url_curr = 'https://www.tripadvisor.co.uk/Attractions-g186338-Activities-c47-t2,3,5,6,7,10,12,13,15,17,19,23,24,25,26,34,39,51,76,91,120,163,175-oa' + i + '-London_England.html'
         r1 = requests.get(url_curr)
         r1 = r1.text
@@ -107,17 +109,26 @@ for link in links_full:
     if bubblereview_string == "":
         #https://www.tripadvisor.co.uk/Attraction_Review-g186338-d17712763-Reviews-Wimbledon_Centre_Court-London_England.html
         for div in data.find_all(class_="attractions-attraction-review-header-attraction-review-header__ratingContainer--1lMqm"):
+            #status2: (==) <span class="ui_bubble_rating bubble_45"></span>
             rating = div.find(class_= re.compile('ui_bubble_rating bubble_\d*'))
             rating_string = str(rating)
             rating_string = rating_string[25:]
             rating_string = rating_string[:-97]
             average_ratings.append(rating_string)
+            print("status2: (==) " + str(rating))
+            break   #prevents duplicated print
     else:
         average_ratings.append(bubblereview_string)
+        print("status2: (else) " + bubblereview_string)
+
+average_ratings_cleaned = [x for x in average_ratings if x]
 
 # 1084 names, 1084 links, 1053 number of ratings (last 31 in dataset dont have ranking/reviews -> default to 0)
 for i in range(31):
     num_reviews.append(0)
 
-df = DataFrame({'Name': names, 'Average Rating': average_ratings, 'Number of Reviews': num_reviews})
+print(average_ratings_cleaned)
+print(len(average_ratings_cleaned))
+
+df = DataFrame({'Name': names, 'Average Rating': average_ratings_cleaned, 'Number of Reviews': num_reviews})
 df.to_excel('test.xlsx', sheet_name='sheet1', index=False)
