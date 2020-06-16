@@ -112,10 +112,11 @@ for link in links_full:
             #status2: (==) <span class="ui_bubble_rating bubble_45"></span>
             rating = div.find(class_= re.compile('ui_bubble_rating bubble_\d*'))
             rating_string = str(rating)
-            rating_string = rating_string[25:]
-            rating_string = rating_string[:-97]
-            average_ratings.append(rating_string)
-            print("status2: (==) " + str(rating))
+            rating_string = rating_string[37:]
+            rating_string = rating_string[:-9]
+            format_string = rating_string[:1] + '.' + rating_string[1:]
+            average_ratings.append(format_string)
+            print("status2: (if) " + format_string)
             break   #prevents duplicated print
     else:
         average_ratings.append(bubblereview_string)
