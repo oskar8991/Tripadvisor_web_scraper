@@ -61,7 +61,7 @@ for i in range(len(links_extensions)):
 
 for i in range(30, 1140, 30):
     #TEMP (i<=1100) should be picked (set to 60 for quicker testing)
-    while i <= 60:
+    while i <= 1100:
         i = str(i)
         print("status1: " + i)
         url_curr = 'https://www.tripadvisor.co.uk/Attractions-g186338-Activities-c47-t2,3,5,6,7,10,12,13,15,17,19,23,24,25,26,34,39,51,76,91,120,163,175-oa' + i + '-London_England.html'
@@ -97,6 +97,7 @@ for i in range(30, 1140, 30):
 
 
 average_ratings = []
+count = 0
 for link in links_full:
     response = requests.get(link)
     response = response.text
@@ -115,21 +116,31 @@ for link in links_full:
             rating_string = rating_string[37:]
             rating_string = rating_string[:-9]
             format_string = rating_string[:1] + '.' + rating_string[1:]
-            average_ratings.append(format_string)
-            print("status2: (if) " + format_string)
+            if format_string == "":
+                average_ratings.append("0")
+            else:
+                average_ratings.append(format_string)
+            count = count + 1
+            print("status2 (if): " + format_string + "[" + str(count) + "]")
             break   #prevents duplicated print
     else:
         average_ratings.append(bubblereview_string)
-        print("status2: (else) " + bubblereview_string)
+        count = count + 1
+        print("status2 (else): " + bubblereview_string + "[" + str(count) + "]")
 
-average_ratings_cleaned = [x for x in average_ratings if x]
+#average_ratings_cleaned = [x for x in average_ratings if x]
 
 # 1084 names, 1084 links, 1053 number of ratings (last 31 in dataset dont have ranking/reviews -> default to 0)
 for i in range(31):
     num_reviews.append(0)
 
-print(average_ratings_cleaned)
-print(len(average_ratings_cleaned))
+for i in range(37):
+    average_ratings.append("0")
 
-df = DataFrame({'Name': names, 'Average Rating': average_ratings_cleaned, 'Number of Reviews': num_reviews})
+print(len(names)) #1084
+print(len(num_reviews)) #1053
+print(len(average_ratings))
+
+
+df = DataFrame({'Name': names, 'Average Rating': average_ratings, 'Number of Reviews': num_reviews})
 df.to_excel('test.xlsx', sheet_name='sheet1', index=False)
