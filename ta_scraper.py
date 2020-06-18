@@ -146,6 +146,7 @@ while(len(average_ratings) < 1084):
 
 ######## MAJORITY OF CODE CORRECT BUT PAGE 2+ INCORRECT [GATHER COLLECTION OF 'NEXT' LINKS AND USE CODE FROM THAT] #########################
 ######## RUN TEST FOR FIRST 3 PAGES INTO DATAFRAME AND SEE IF CORRECT (WILL COVER ALL CASES - IF,ELSE) #####################################
+######## REPULLS THE SAME NUMBER_OF_REVIEW DATA FROM PAGE 1 ONTO PAGE 2,3,4,5,.... #########################################################
 
 df = DataFrame({'Name': names, 'Average Rating': average_ratings, 'Number of Reviews': num_reviews, 'Link': links_full})
 df.to_excel('test.xlsx', sheet_name='sheet1', index=False)
