@@ -55,7 +55,6 @@ for i in range(len(links_extensions)):
     full = "https://www.tripadvisor.co.uk" + links_extensions[i]
     links_full.append(full)
 
-
 #https://www.tripadvisor.co.uk/Attractions-g186338-Activities-c47-t2,3,5,6,7,10,12,13,15,17,19,23,24,25,26,34,39,51,76,91,120,163,175-London_England.html
 #https://www.tripadvisor.co.uk/Attractions-g186338-Activities-c47-t2,3,5,6,7,10,12,13,15,17,19,23,24,25,26,34,39,51,76,91,120,163,175-oa30-London_England.html
 
@@ -130,17 +129,23 @@ for link in links_full:
 
 #average_ratings_cleaned = [x for x in average_ratings if x]
 
+print(len(names)) #1084
+print(len(num_reviews)) #1053
+print(len(average_ratings)) #count reached 1052 -> 1053 (LAST 31 DONT HAVE RANKING/REVIEW)
+
 # 1084 names, 1084 links, 1053 number of ratings (last 31 in dataset dont have ranking/reviews -> default to 0)
+#next run 1048 for average_ratings len? Make method to fill to 1084 depending on current length of both
+'''
 for i in range(31):
     num_reviews.append(0)
 
-for i in range(37):
+while(len(average_ratings) < 1084):
     average_ratings.append("0")
-
-print(len(names)) #1084
-print(len(num_reviews)) #1053
-print(len(average_ratings))
+'''
 
 
-df = DataFrame({'Name': names, 'Average Rating': average_ratings, 'Number of Reviews': num_reviews})
+######## MAJORITY OF CODE CORRECT BUT PAGE 2+ INCORRECT [GATHER COLLECTION OF 'NEXT' LINKS AND USE CODE FROM THAT] #########################
+######## RUN TEST FOR FIRST 3 PAGES INTO DATAFRAME AND SEE IF CORRECT (WILL COVER ALL CASES - IF,ELSE) #####################################
+
+df = DataFrame({'Name': names, 'Average Rating': average_ratings, 'Number of Reviews': num_reviews, 'Link': links_full})
 df.to_excel('test.xlsx', sheet_name='sheet1', index=False)
