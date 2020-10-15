@@ -60,6 +60,7 @@ for i in range(len(links_extensions)):
 
 for i in range(30, 1140, 30):
     #TEMP (i<=1100) should be picked (set to 60 for quicker testing)
+    #################### make it 1000 since last attractions are missing data, etc. 
     while i <= 1100:
         i = str(i)
         print("status1: " + i)
